@@ -29,13 +29,9 @@ export function SignIn() {
     try {
       await signIn()
     } catch (error) {
-      Alert.alert('ERRO')
+      Alert.alert('Erro SignIn', 'Ocorreu um erro ao tentar logar no app')
     }
   }
-
-  // creates a function to handle sign in
-    // try to call and wait signIn
-    // if fails, display an Alert with the title "Erro SignIn" and message "Ocorreu um erro ao tentar logar no app"
 
   return (
     <Container
@@ -71,7 +67,7 @@ export function SignIn() {
 
           <SignInButton onPress={handleSignIn}>
             <SignInButtonIcon>
-              {isLoggingIn ? <ActivityIndicator /> : <Fontisto name="twitch" color="white" />}
+              {isLoggingIn ? <ActivityIndicator /> : <Fontisto name="twitch" color="white" size={20} />}
             </SignInButtonIcon>
 
             <SignInButtonText>
