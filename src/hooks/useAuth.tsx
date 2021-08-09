@@ -1,5 +1,5 @@
 import React, { useEffect, createContext, useContext, useState, ReactNode } from 'react';
-import { makeRedirectUri, revokeAsync, startAsync } from 'expo-auth-session';
+import { DiscoveryDocument, makeRedirectUri, revokeAsync, startAsync } from 'expo-auth-session';
 import { generateRandom } from 'expo-auth-session/build/PKCE';
 
 import { api } from '../services/api';
@@ -86,17 +86,25 @@ function AuthProvider({ children }: AuthProviderData) {
 
   async function signOut() {
     try {
-      // set isLoggingOut to true
+      setIsLoggingIn(true)
 
-      // call revokeAsync with access_token, client_id and twitchEndpoint revocation
+      const config = {
+        token: userToken, clientId: CLIENT_ID
+      }
+
+      const dicovery = {
+        revocationEndpoint: twitchEndpoints.revocation,
+      }
+
+      await revokeAsync(config, dicovery);
     } catch (error) {
     } finally {
-      // set user state to an empty User object
-      // set userToken state to an empty string
+      setUserToken('')
+      setUser({} as User)
 
-      // remove "access_token" from request's authorization header
+      delete api.defaults.headers.authorization;
 
-      // set isLoggingOut to false
+      setIsLoggingIn(false)
     }
   }
 
